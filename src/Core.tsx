@@ -19,7 +19,7 @@ export default function core() {
             path="/"
             element={
               <>
-                <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
+                <GithubCorner href="https://github.com/whirlxd/img-to-pdf" />
                 <Home /> <Stats />
                 <Footer />
               </>
@@ -34,7 +34,7 @@ export default function core() {
                 ) : (
                   <>
                     {" "}
-                    <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
+                    <GithubCorner href="https://github.com/whirlxd/img-to-pdf" />
                     <App />
                   </>
                 )}
@@ -45,7 +45,7 @@ export default function core() {
             path="*"
             element={
               <>
-                <GithubCorner href="https://github.com/whirl21/img-to-pdf" />
+                <GithubCorner href="https://github.com/whirlxd/img-to-pdf" />
                 <Home /> <Stats />
                 <Footer />
               </>

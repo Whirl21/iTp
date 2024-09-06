@@ -5,19 +5,13 @@ import {
   FC,
   useEffect,
   useReducer,
-  useRef,
 } from "react";
 import { CustomImage } from "../types/custom-image";
 import getImageUrl from "../utils/getImageUrl";
-import { saveAs } from "file-saver";
-
 import "../css/App.css";
 //@ts-ignore:next-line cuz pkg gae
 import swal from "sweetalert2/dist/sweetalert2.all.min.js";
-
 import pdf from "images-to-pdf-package";
-import document from "postcss/lib/document";
-
 const App: FC = () => {
   const [uploadedImages, setUploadedImages] = useState<CustomImage[]>([]);
   const [downloadUrl, setDownloadUrl] = useState("not empty at all");
@@ -31,16 +25,17 @@ const App: FC = () => {
         const fileArray = files ? Array.from(files) : [];
         const finalFiles = fileArray.map(getImageUrl);
 
-        Promise.all(finalFiles).then((newImages) =>
-          setUploadedImages((oldImages) => [...oldImages, ...newImages])
-        );
+        Promise.all(finalFiles).then((newImages) => {
+          setUploadedImages((oldImages) => [...oldImages, ...newImages]);
+          e.target.value = ""; // Reset the file input value
+        });
       } else {
         swal.fire({
           icon: "info",
           title: "Oops...",
           text: "You can only make a pdf out of 30 images at a time!\n Next time select less than 30 images.",
           showCancelButton: false,
-          confirmButtonText: "Aight!",
+          confirmButtonText: "Alright!",
         });
       }
     },
@@ -125,7 +120,7 @@ const App: FC = () => {
           extraImages +
           " image(s) to proceed.",
         showCancelButton: false,
-        confirmButtonText: "Aight!",
+        confirmButtonText: "Alright!",
       });
     }
 
@@ -163,13 +158,13 @@ const App: FC = () => {
   }, [uploadedImages]);
   const removeImages = useCallback(
     (img: any) => {
-      const localCopyOfUI = uploadedImages;
+      const localCopyOfUI = [...uploadedImages];
       const index = localCopyOfUI.indexOf(img);
       if (index > -1) {
-        return localCopyOfUI.splice(index, 1);
+        localCopyOfUI.splice(index, 1);
       }
       setUploadedImages(localCopyOfUI);
-      return forceUpdate();
+      forceUpdate(); // Force a re-render for single click
     },
     [uploadedImages, setUploadedImages]
   );
@@ -187,14 +182,14 @@ const App: FC = () => {
       )}
 
       <div className="">
-        <section className="container content-center  mx-auto bg-2a2e38 dark:bg-gray-800">
+        <section className="container content-center mx-auto bg-2a2e38 dark:bg-gray-800">
           <div className="flex justify-evenly items-right ">
-            <div className="grid grid-flow-cols grid-cols-0 grid-rows-auto   mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid mt-8 grid-flow-cols grid-cols-0 grid-rows-auto sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {uploadedImages.length >= 1 ? (
                 uploadedImages.map((image) => (
-                  <div className="w-full content-start  items-center text-center image">
+                  <div className="items-center content-start w-full text-center image">
                     <img
-                      className="object-cover object-center  hover:opacity-75 rounded-lg  m-2 mx-2"
+                      className="object-cover object-center mx-2 mt-3 transition duration-300 ease-in-out transform rounded-lg hover:opacity-75 hover:scale-110"
                       id="image"
                       src={image.src}
                       key={image.src.toUpperCase()}
@@ -204,13 +199,13 @@ const App: FC = () => {
                     />
 
                     <button
-                      className="font-black text-2xl tracking-wide mx-1 text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none px-6 py-2 mt-6  leading-5 text-center  capitalize  rounded-lg   md:w-auto"
+                      className="px-6 py-2 mx-1 mt-6 text-2xl font-black leading-5 tracking-wide text-center text-teal-900 capitalize transition duration-200 rounded-lg shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none md:w-auto"
                       onClick={() => removeImages(image)}
                     >
                       🗑️
                     </button>
                     <button
-                      className="font-black text-2xl tracking-wide mx-1  text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-red-accent-200 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none px-6 py-2 mt-6  leading-5 text-center  capitalize  rounded-lg   md:w-auto"
+                      className="px-6 py-2 mx-1 mt-6 text-2xl font-black leading-5 tracking-wide text-center text-teal-900 capitalize transition duration-200 bg-transparent rounded-lg shadow-md hover:text-deep-purple-900 hover:bg-deep-purple-accent-200 focus:shadow-outline focus:outline-none md:w-auto"
                       onClick={() => window.open(image.src)}
                     >
                       🔗
@@ -226,27 +221,27 @@ const App: FC = () => {
       </div>
       {uploadedImages.length == 0 ? (
         <>
-          <h1 className="text-3xl font-bold text-center text-white md:text-4xl ">
-            No image selected
-          </h1>{" "}
-          <br></br>
-          <br></br>
+          <div className="flex items-center justify-center ">
+            <h1 className="text-3xl font-bold text-center text-white md:text-4xl">
+              No image selected
+            </h1>
+          </div>
         </>
       ) : (
         <></>
       )}
 
-      <div className="flex justify-center items-center ">
+      <div className="flex items-center justify-center ">
         <label htmlFor="file-input">
           {uploadedImages.length >= 1 ? (
-            <div className="flex justify-center items-center">
-              <span className="tracking-wide text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none px-6 py-2 mt-6 text-sm font-medium leading-5 text-center  capitalize  rounded-lg  md:mx-0 md:w-auto ">
+            <div className="flex items-center justify-center">
+              <span className="px-6 py-2 mt-6 text-sm font-medium leading-5 tracking-wide text-center text-teal-900 capitalize transition duration-200 rounded-lg shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none md:mx-0 md:w-auto ">
                 Upload More Images
               </span>
             </div>
           ) : (
-            <div className="flex justify-center items-center">
-              <span className="tracking-wide text-teal-900 transition duration-200  shadow-md hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none px-6 py-2 mt-6 text-sm font-medium leading-5 text-center  capitalize  rounded-lg  md:mx-0 md:w-auto ">
+            <div className="flex items-center justify-center">
+              <span className="py-3 mt-5 text-base font-medium leading-5 tracking-wide text-center text-teal-900 capitalize transition duration-200 rounded-lg shadow-md px-7 hover:text-deep-purple-900 bg-teal-accent-400 hover:bg-deep-purple-accent-100 focus:shadow-outline focus:outline-none md:mx-0 md:w-auto ">
                 Upload Images
               </span>
             </div>
@@ -264,9 +259,9 @@ const App: FC = () => {
       </div>
 
       {uploadedImages.length >= 1 && !generated ? (
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <button
-            className="text-center px-6 hover:text-deep-purple-900 hover:bg-deep-purple-accent-100 py-2 mt-6 text-sm font-medium leading-5  text-white capitalize bg-blue-600 rounded-lg  md:mx-0 md:w-auto focus:outline-none"
+            className="px-10 py-4 mt-6 text-lg font-medium leading-5 text-center text-white capitalize bg-blue-600 rounded-lg hover:text-deep-purple-900 hover:bg-deep-purple-accent-100 md:mx-0 md:w-auto focus:outline-none"
             onClick={generatePdf}
           >
             Generate Pdf

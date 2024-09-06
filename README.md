@@ -1,4 +1,4 @@
-<h1 align="center">img-pdf-app</h1><img src="public/android-chrome-192x192.png" width="50" height="50"alt="logoz" align="left" />
+<h1 align="center">img-pdf-app</h1><img src="public/android-chrome-192x192.png" width="50" height="50"alt="logo" align="left" />
 
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />

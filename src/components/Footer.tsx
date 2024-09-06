@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <h3 className="text-center ml-2 text-xl font-bold tracking-wide text-gray-100 ">
+      <h3 className="ml-2 text-xl font-bold tracking-wide text-center text-gray-100 ">
         Copyright ©️ {new Date().getFullYear()}{" "}
-        <a href="https://github.com/Whirl21">Whirl</a>.
+        <a href="https://github.com/whirlxd">Whirl</a>.
       </h3>
       <div className="flex flex-col justify-center pt-5 pb-10 border-t border-deep-purple-accent-200 sm:flex-row">
         <div className="flex items-center justify-center mt-4 space-x-4 sm:mt-0">
           <a
-            href="https://twitter.com/Whirl_21"
+            href="https://twitter.com/whirlxd"
             className="transition-colors duration-300 text-deep-purple-100 hover:text-teal-accent-400"
             target="_blank"
             title="Twitter"
@@ -21,14 +21,14 @@ const Footer = () => {
             </svg>
           </a>
           <a
-            href="https://whirl.codes"
+            href="https://whirlxd.xyz"
             className="transition-colors duration-300 text-deep-purple-100 hover:text-teal-accent-400"
             target="_blank"
             title="Website"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -42,14 +42,14 @@ const Footer = () => {
             </svg>
           </a>
           <a
-            href="https://discord.com/users/808332105108553759"
+            href="https://whirlxd.xyz/contact"
             className="transition-colors duration-300 text-deep-purple-100 hover:text-teal-accent-400"
             target="_blank"
             title="Discord"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
